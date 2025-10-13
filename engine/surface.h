@@ -16,7 +16,7 @@ class Surface {
         int fg=7;
         int bg=0;
 
-        Surface(int wi, int hi, ch sym) {
+        Surface(int wi, int hi, char sym) {
             width=wi;
             height=hi;
 
@@ -35,4 +35,6 @@ class Surface {
         }
 
 
-}
+};
+
+#endif

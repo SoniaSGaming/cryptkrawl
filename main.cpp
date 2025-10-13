@@ -7,7 +7,7 @@
 
 int main(){
 
-    intiscr();
+    initscr();
     if(!has_colors()){	
         endwin();
 		printf("Your terminal does not support color\n");
@@ -15,7 +15,7 @@ int main(){
 	}
     start_color();
 
-    Surface srf = new Surface(10, 10, '#');
+    Surface srf(10, 10, '#');
     srf.set_color(1, 0);
 
     blit_surf(stdscr, 15, 10, srf);
