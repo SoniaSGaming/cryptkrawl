@@ -1,4 +1,4 @@
-#include <ncurses/ncurses.h>
+#include <ncurses.h>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -13,8 +13,7 @@ class Surface {
         int width;
         int height;
         std::vector<std::string> graphic;
-        int fg=7;
-        int bg=0;
+        int color=7;
 
         Surface(int wi, int hi, char sym) {
             width=wi;
@@ -29,9 +28,8 @@ class Surface {
             }
         }
 
-        void set_color(int fgc, int bgc) {
-            fg=fgc;
-            bg=bgc;
+        void set_color(int clr) {
+            color = clr;
         }
 
 
