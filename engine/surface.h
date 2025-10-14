@@ -13,14 +13,13 @@ class Surface {
         std::vector<std::string> graphic;
         int color=7;
 
-        Surface(int wi, int hi, char sym) {
-            size.first = wi;
-            size.second = hi;
+        Surface(std::pair<int, int> sz, char sym) {
+            size = sz;
 
-            for(int i=0;i<hi;++i)
+            for(int i=0;i<size.second;++i)
             {
                 std::string f="";
-                for(int j=0;j<wi;++j)
+                for(int j=0;j<size.first;++j)
                     f+=sym;
                 graphic.push_back(f);
             }
