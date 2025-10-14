@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <utility>
 
 #ifndef _BLITTING_H_
 #define _BLITTING_H_
@@ -17,15 +18,15 @@ void init_color_pairs() {
     init_pair(1,1,0);
 }
 
-void blit_surf(WINDOW * win, int x, int y, Surface surf) {
+void blit_surf(WINDOW * win, std::pair<int, int> pos, Surface surf) {
     int xMax, yMax;
     getmaxyx(win, yMax, xMax);
 
     attron(COLOR_PAIR(surf.color));
     
-    for(int k=0;k+y<=yMax && k<surf.graphic.size();++k)
-        for(int j=0;j<surf.graphic[k].size() && x+j<=xMax;++j){
-            mvwaddch(win, y+k, x+j, surf.graphic[k][j]);
+    for(int i=0;i+pos.second<=yMax && i<surf.size.second;++i)
+        for(int j=0;j<surf.size.first && pos.first+j<=xMax;++j){
+            mvwaddch(win, pos.second+i, pos.first+j, surf.graphic[i][j]);
         }
     attroff(COLOR_PAIR(surf.color));
 
