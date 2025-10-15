@@ -101,6 +101,103 @@ void Screen::draw_rect(Rect rect, char grph, int color) {
     wrefresh(window);
 }
 
+void Screen::draw_poligon(std::vector<std::pair<int,int>> points, char ch, int color) {
+    for(int i=0;i<points.size();++i) {
+        std::pair<int,int> point1, point2;
+        if(i==points.size()-1) {
+            point1=points[i], point2=points[0];
+        }
+        else {
+            point1=points[i], point2=points[i+1];
+        }
+        draw_line(point1, point2, ch, color);
+    }
+}
+
+void putCirclePixel(WINDOW * window, int xc, int yc, int x, int y, char ch, int color) {
+    wattron(window, COLOR_PAIR(color));
+    mvwaddch(window, yc+y, xc+x, ch);
+    mvwaddch(window, yc+y, xc-x, ch);
+    mvwaddch(window, yc-y, xc+x, ch);
+    mvwaddch(window, yc-y, xc-x, ch);
+    wattroff(window, COLOR_PAIR(color));
+}
+
+
+//BRESENHAM"S ELIPSE ALGORITHM :P
+void Screen::draw_elipse(std::pair<int,int> center, int rx, int ry, char ch, int color) {
+    //int rx=radius, ry=radius*38/64;
+    float dx, dy, d1, d2, x, y;
+    x = 0;
+    y = ry;
+
+    // Initial decision parameter of region 1
+    d1 = (ry * ry) - (rx * rx * ry) + 
+                     (0.25 * rx * rx);
+    dx = 2 * ry * ry * x;
+    dy = 2 * rx * rx * y;
+
+    // For region 1
+    while (dx < dy) 
+    {
+
+        // Print points based on 4-way symmetry
+        putCirclePixel(window, center.first, center.second, x, y, ch, color);
+
+        // Checking and updating value of
+        // decision parameter based on algorithm
+        if (d1 < 0)
+        {
+            x++;
+            dx = dx + (2 * ry * ry);
+            d1 = d1 + dx + (ry * ry);
+        }
+        else 
+        {
+            x++;
+            y--;
+            dx = dx + (2 * ry * ry);
+            dy = dy - (2 * rx * rx);
+            d1 = d1 + dx - dy + (ry * ry);
+        }
+    }
+
+    // Decision parameter of region 2
+    d2 = ((ry * ry) * ((x + 0.5) * (x + 0.5))) + 
+         ((rx * rx) * ((y - 1) * (y - 1))) -
+          (rx * rx * ry * ry);
+
+    // Plotting points of region 2
+    while (y >= 0)
+    {
+
+        // Print points based on 4-way symmetry
+        putCirclePixel(window, center.first, center.second, x, y, ch, color);
+
+        // Checking and updating parameter
+        // value based on algorithm
+        if (d2 > 0) 
+        {
+            y--;
+            dy = dy - (2 * rx * rx);
+            d2 = d2 + (rx * rx) - dy;
+        }
+        else 
+        {
+            y--;
+            x++;
+            dx = dx + (2 * ry * ry);
+            dy = dy - (2 * rx * rx);
+            d2 = d2 + dx - dy + (rx * rx);
+        }
+    }
+    wrefresh(window);
+}
+
+void Screen::draw_circle(std::pair<int,int> center, int radius, char ch, int color) {
+    draw_elipse(center, radius, radius*19/32, ch, color);
+}
+
 Surface::Surface(std::pair<int, int> sz, char sym) {
     size = sz;
 

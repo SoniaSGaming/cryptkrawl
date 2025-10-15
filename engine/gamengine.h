@@ -54,6 +54,12 @@ class Screen {
     void draw_rect(Rect rect, char grph, int color=7);
 
     void draw_line(std::pair<int, int> point1, std::pair<int, int> point2, char ch, int color=7);
+
+    void draw_poligon(std::vector<std::pair<int,int>> points, char ch, int color=7);
+
+    void draw_circle(std::pair<int,int> center, int radius, char ch, int color=7);
+
+    void draw_elipse(std::pair<int,int> center, int rx, int ry, char ch, int color=7);
 };
 
 void init_color_pairs();
